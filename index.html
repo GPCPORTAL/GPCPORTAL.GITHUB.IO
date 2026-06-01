@@ -381,7 +381,9 @@ footer{
   <div class="alert" id="alert-n1"></div>
   <div class="field">
     <label>Process ID (Request ID) <span class="req">*</span></label>
-    <input type="tel" id="n-Process_ID" placeholder="8-digit number" maxlength="8" inputmode="numeric"/>
+    <!-- BUG 5 FIX: added oninput digit filter matching the edit search field -->
+    <input type="tel" id="n-Process_ID" placeholder="8-digit number" maxlength="8" inputmode="numeric"
+           oninput="this.value=this.value.replace(/\D/g,'')"/>
   </div>
   <div class="field">
     <label>Request Date <span class="req">*</span></label>
@@ -412,8 +414,8 @@ footer{
   </div>
   <div class="field"><label>Father / Husband Name <span class="req">*</span></label><input type="text" id="n-Owner_Father_Name"/></div>
   <div class="frow">
-    <div class="field"><label>Owner CNIC <span class="req">*</span></label><input type="tel" id="n-Owner_CNIC" maxlength="13" placeholder="13 digits" inputmode="numeric"/></div>
-    <div class="field"><label>Mobile Number <span class="req">*</span></label><input type="tel" id="n-Owner_Contact" maxlength="11" placeholder="03001234567" inputmode="numeric"/></div>
+    <div class="field"><label>Owner CNIC <span class="req">*</span></label><input type="tel" id="n-Owner_CNIC" maxlength="13" placeholder="13 digits" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
+    <div class="field"><label>Mobile Number <span class="req">*</span></label><input type="tel" id="n-Owner_Contact" maxlength="11" placeholder="03001234567" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
   </div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="goNewPanel('panel-n1',0)">← BACK</button>
@@ -444,7 +446,7 @@ footer{
     <div class="field"><label>Khewat Number <span class="req">*</span></label><input type="text" id="n-Khewat_Number"/></div>
     <div class="field"><label>Khasra Numbers <span class="req">*</span></label><input type="text" id="n-Khasra_Numbers" placeholder="Comma separated"/></div>
   </div>
-  <div class="field"><label>Total Parcels <span class="req">*</span></label><input type="tel" id="n-Total_Parcels" inputmode="numeric"/></div>
+  <div class="field"><label>Total Parcels <span class="req">*</span></label><input type="tel" id="n-Total_Parcels" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
   <div class="sec-head"><div class="sec-line"></div><div class="sec-label">AREA</div><div class="sec-line"></div></div>
   <div class="frow3">
     <div class="field"><label>Kanal <span class="req">*</span></label><input type="tel" id="n-Kanal" placeholder="0" inputmode="decimal"/></div>
@@ -491,6 +493,7 @@ footer{
 
 <!-- ══════════════════════════
      NEW: PAGE 5 — STATUS
+     BUG 1 FIX: status options now populated via JS STATUS_OPTIONS constant
 ══════════════════════════════ -->
 <div class="panel" id="panel-n5">
   <div class="panel-title">REQUEST STATUS</div>
@@ -508,7 +511,7 @@ footer{
   </div>
   <div class="frow">
     <div class="field"><label>Status Update Date <span class="req">*</span></label><input type="date" id="n-Status_Update_Date"/></div>
-    <div class="field"><label>Total Status Updates</label><input type="tel" id="n-Total_Status_Updates" value="1" inputmode="numeric"/></div>
+    <div class="field"><label>Total Status Updates</label><input type="tel" id="n-Total_Status_Updates" value="1" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
   </div>
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="goNewPanel('panel-n4',3)">← BACK</button>
@@ -661,9 +664,9 @@ footer{
   </div>
   <div class="frow">
     <div class="field"><label>Father / Husband Name <span class="req">*</span></label><input type="text" id="e-Owner_Father_Name"/></div>
-    <div class="field"><label>Owner CNIC <span class="req">*</span></label><input type="text" id="e-Owner_CNIC" maxlength="13" placeholder="13 digits"/></div>
+    <div class="field"><label>Owner CNIC <span class="req">*</span></label><input type="text" id="e-Owner_CNIC" maxlength="13" placeholder="13 digits" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
   </div>
-  <div class="field"><label>Mobile Number <span class="req">*</span></label><input type="text" id="e-Owner_Contact" maxlength="11" placeholder="03001234567"/></div>
+  <div class="field"><label>Mobile Number <span class="req">*</span></label><input type="text" id="e-Owner_Contact" maxlength="11" placeholder="03001234567" oninput="this.value=this.value.replace(/\D/g,'')"/></div>
 
   <div class="sec-head"><div class="sec-line"></div><div class="sec-label">🌾 LAND DETAILS</div><div class="sec-line"></div></div>
   <div class="frow">
@@ -702,6 +705,7 @@ footer{
       <option value="no">No</option>
     </select>
   </div>
+  <!-- BUG 2 FIX: changed display to 'block' instead of 'grid' -->
   <div id="e-resurvey-wrap" style="display:none">
     <div class="frow">
       <div class="field"><label>Resurveyor Name</label><input type="text" id="e-Resurveyor_Name"/></div>
@@ -713,41 +717,11 @@ footer{
   <div class="frow">
     <div class="field">
       <label>Initial Status <span class="req">*</span></label>
-      <select id="e-Initial_Status">
-        <option value="">Select...</option>
-        <option value="fee_pending">Fee Pending</option>
-        <option value="survey_scheduled">Survey Scheduled</option>
-        <option value="survey_in_progress">Survey In Progress</option>
-        <option value="surveyed_submitted">Surveyed and Submitted</option>
-        <option value="possession_issue">Possession Issue</option>
-        <option value="possession_verified">Possession Verified</option>
-        <option value="owner_not_available">Owner Not Available</option>
-        <option value="owner_unwilling">Owner Unwilling</option>
-        <option value="resurvey_required">Resurvey Required</option>
-        <option value="resurveyed_submitted">Resurveyed and Submitted</option>
-        <option value="data_missing">Data Missing</option>
-        <option value="request_closed">Request Closed</option>
-        <option value="gpc_issued">GPC Issued</option>
-      </select>
+      <select id="e-Initial_Status"><option value="">Select...</option></select>
     </div>
     <div class="field">
       <label>Current Status <span class="req">*</span></label>
-      <select id="e-Current_Status">
-        <option value="">Select...</option>
-        <option value="fee_pending">Fee Pending</option>
-        <option value="survey_scheduled">Survey Scheduled</option>
-        <option value="survey_in_progress">Survey In Progress</option>
-        <option value="surveyed_submitted">Surveyed and Submitted</option>
-        <option value="possession_issue">Possession Issue</option>
-        <option value="possession_verified">Possession Verified</option>
-        <option value="owner_not_available">Owner Not Available</option>
-        <option value="owner_unwilling">Owner Unwilling</option>
-        <option value="resurvey_required">Resurvey Required</option>
-        <option value="resurveyed_submitted">Resurveyed and Submitted</option>
-        <option value="data_missing">Data Missing</option>
-        <option value="request_closed">Request Closed</option>
-        <option value="gpc_issued">GPC Issued</option>
-      </select>
+      <select id="e-Current_Status"><option value="">Select...</option></select>
     </div>
   </div>
   <div class="frow">
@@ -842,6 +816,40 @@ footer{
 // ══════════════════════════════════════════════════
 const FEATURE_SERVICE = 'https://services8.arcgis.com/R6OYYLO6izm86R61/arcgis/rest/services/service_10da711677764b0e8e79ad7afed027aa/FeatureServer/0';
 const TOKEN_URL       = 'https://www.arcgis.com/sharing/rest/generateToken';
+
+// ══════════════════════════════════════════════════
+// BUG 1 FIX: Centralised status options — single source of truth
+// used to populate BOTH new-form and edit-form selects
+// ══════════════════════════════════════════════════
+const STATUS_OPTIONS = [
+  { value: 'fee_pending',          label: 'Fee Pending' },
+  { value: 'survey_scheduled',     label: 'Survey Scheduled' },
+  { value: 'survey_in_progress',   label: 'Survey In Progress' },
+  { value: 'surveyed_submitted',   label: 'Surveyed and Submitted' },
+  { value: 'possession_issue',     label: 'Possession Issue' },
+  { value: 'possession_verified',  label: 'Possession Verified' },
+  { value: 'owner_not_available',  label: 'Owner Not Available' },
+  { value: 'owner_unwilling',      label: 'Owner Unwilling' },
+  { value: 'resurvey_required',    label: 'Resurvey Required' },
+  { value: 'resurveyed_submitted', label: 'Resurveyed and Submitted' },
+  { value: 'data_missing',         label: 'Data Missing' },
+  { value: 'request_closed',       label: 'Request Closed' },
+  { value: 'gpc_issued',           label: 'GPC Issued' },
+];
+
+function populateStatusSelect(id, selectedValue) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  // Keep the first placeholder option, remove the rest
+  while (el.options.length > 1) el.remove(1);
+  STATUS_OPTIONS.forEach(opt => {
+    const o = document.createElement('option');
+    o.value = opt.value;
+    o.textContent = opt.label;
+    if (opt.value === selectedValue) o.selected = true;
+    el.appendChild(o);
+  });
+}
 
 // ══════════════════════════════════════════════════
 // COORDINATOR CODES
@@ -1018,6 +1026,17 @@ let S = {
 };
 
 // ══════════════════════════════════════════════════
+// BUG 6 FIX: Get local date string in PKT (UTC+5)
+// avoids yesterday's date showing late at night
+// ══════════════════════════════════════════════════
+function localDatePKT() {
+  const now = new Date();
+  // offset to PKT = UTC+5
+  const pkt = new Date(now.getTime() + (5 * 60 * 60 * 1000));
+  return pkt.toISOString().split('T')[0];
+}
+
+// ══════════════════════════════════════════════════
 // PANEL MANAGEMENT
 // ══════════════════════════════════════════════════
 let curPanel = 'panel-landing';
@@ -1029,10 +1048,10 @@ function showPanel(id) {
 }
 
 // NEW mode step config
-const NEW_STEPS = ['REQUEST','OWNER','LAND','SURVEY','STATUS','POSSESSION','REMARKS','DONE'];
+const NEW_STEPS  = ['REQUEST','OWNER','LAND','SURVEY','STATUS','POSSESSION','REMARKS','DONE'];
 const NEW_PANELS = ['panel-n1','panel-n2','panel-n3','panel-n4','panel-n5','panel-n6','panel-n7','panel-n-success'];
 // EDIT mode step config
-const EDIT_STEPS = ['SEARCH','EDIT','DONE'];
+const EDIT_STEPS  = ['SEARCH','EDIT','DONE'];
 const EDIT_PANELS = ['panel-e1','panel-e2','panel-e-success'];
 
 function buildSteps(steps, activeIdx) {
@@ -1059,12 +1078,19 @@ function goEditPanel(id, stepIdx) {
 // INIT
 // ══════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-  const today = new Date().toISOString().split('T')[0];
+  // BUG 1 FIX: populate all four status selects on load
+  ['n-Initial_Status','n-Current_Status','e-Initial_Status','e-Current_Status'].forEach(id => {
+    populateStatusSelect(id);
+  });
+
+  // BUG 6 FIX: use PKT-aware date helper
+  const today = localDatePKT();
   ['n-Request_Date','n-Survey_Assigned_Date','n-Status_Update_Date'].forEach(id => {
     const el = document.getElementById(id); if(el) el.value = today;
   });
+
   document.getElementById('coord-code').addEventListener('keydown', e => { if(e.key==='Enter') doVerify(); });
-  document.getElementById('agol-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+  document.getElementById('agol-pass').addEventListener('keydown',  e => { if(e.key==='Enter') doLogin(); });
   document.getElementById('e-process-id').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
 });
 
@@ -1122,7 +1148,7 @@ function doVerify() {
   ['n-tehsil','e-tehsil'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=info.tehsil; });
   ['n-code','e-code'].forEach(id=>{ const el=document.getElementById(id); if(el) el.textContent=code; });
 
-  // Show mode bar
+  // Show mode bar & progress bar
   document.getElementById('mode-bar').classList.add('visible');
   document.getElementById('progress-bar').classList.add('visible');
 
@@ -1143,13 +1169,28 @@ function switchMode(mode) {
   }
 }
 
+// BUG 7 FIX: doLogout now also clears edit form fields
 function doLogout() {
   S = {token:null,mode:null,code:null,tehsil:null,district:null,processID:null,objectID:null};
   document.getElementById('mode-bar').classList.remove('visible');
   document.getElementById('progress-bar').classList.remove('visible');
-  document.getElementById('agol-user').value='';
-  document.getElementById('agol-pass').value='';
-  document.getElementById('coord-code').value='';
+  document.getElementById('agol-user').value    = '';
+  document.getElementById('agol-pass').value    = '';
+  document.getElementById('coord-code').value   = '';
+  document.getElementById('e-process-id').value = '';
+
+  // Clear all edit form fields
+  document.querySelectorAll('[id^="e-"]').forEach(el => {
+    if (el.tagName==='INPUT'||el.tagName==='SELECT'||el.tagName==='TEXTAREA') {
+      el.value=''; el.classList.remove('err','filled');
+    }
+  });
+  // Re-populate status selects after clearing
+  ['e-Initial_Status','e-Current_Status'].forEach(id => populateStatusSelect(id));
+  document.getElementById('e-resurvey-wrap').style.display  = 'none';
+  document.getElementById('e-possession-wrap').style.display = 'none';
+  document.getElementById('e-resolution-wrap').style.display = 'none';
+
   const badge = document.getElementById('conn-badge');
   badge.textContent='● OFFLINE'; badge.classList.remove('live');
   showPanel('panel-landing');
@@ -1210,8 +1251,8 @@ async function doNewSubmit() {
   }
 
   setLoading('btn-new-submit','new-submit-spin',true);
-  const toTS = id => { const v=gv(id); return v?new Date(v).getTime():null; };
-  const toNum = id => { const v=gv(id); return v!==''&&v!=null?parseFloat(v):null; };
+  const toTS  = id => { const v=gv(id); return v ? new Date(v).getTime() : null; };
+  const toNum = id => { const v=gv(id); return v!==''&&v!=null ? parseFloat(v) : null; };
 
   const attributes = {
     Process_ID:                gv('n-Process_ID'),
@@ -1281,25 +1322,35 @@ async function doNewSubmit() {
   } finally { setLoading('btn-new-submit','new-submit-spin',false); }
 }
 
+// BUG 3 FIX: resetNew now clears ALL date fields including Resurvey_Date and Request_Closing_Date
 function resetNew() {
   document.querySelectorAll('[id^="n-"]').forEach(el => {
     if (el.tagName==='INPUT'||el.tagName==='SELECT'||el.tagName==='TEXTAREA') {
       el.value=''; el.classList.remove('err','filled');
     }
   });
-  const today = new Date().toISOString().split('T')[0];
-  ['n-Request_Date','n-Survey_Assigned_Date','n-Status_Update_Date'].forEach(id=>{
-    const el=document.getElementById(id); if(el) el.value=today;
+  // Re-populate status selects after clearing
+  ['n-Initial_Status','n-Current_Status'].forEach(id => populateStatusSelect(id));
+
+  // BUG 6 FIX: use PKT-aware date helper in reset too
+  const today = localDatePKT();
+  ['n-Request_Date','n-Survey_Assigned_Date','n-Status_Update_Date'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = today;
   });
-  document.getElementById('n-Total_Status_Updates').value='1';
-  document.getElementById('n-resurvey-wrap').style.display='none';
-  document.getElementById('n-possession-wrap').style.display='none';
-  document.getElementById('n-resolution-wrap').style.display='none';
-  goNewPanel('panel-n1',0);
+  // BUG 3 FIX: explicitly clear optional date fields that resetNew missed
+  ['n-Resurvey_Date','n-Request_Closing_Date','n-Possession_Resolution_Date'].forEach(id => {
+    const el = document.getElementById(id); if(el) el.value = '';
+  });
+  document.getElementById('n-Total_Status_Updates').value = '1';
+  document.getElementById('n-resurvey-wrap').style.display   = 'none';
+  document.getElementById('n-possession-wrap').style.display = 'none';
+  document.getElementById('n-resolution-wrap').style.display = 'none';
+  goNewPanel('panel-n1', 0);
 }
 
 // ══════════════════════════════════════════════════
 // EDIT — SEARCH
+// BUG 4 FIX: query uses numeric comparison (no quotes around pid)
 // ══════════════════════════════════════════════════
 async function doSearch() {
   const pid = document.getElementById('e-process-id').value.trim();
@@ -1308,7 +1359,8 @@ async function doSearch() {
 
   setLoading('btn-search','search-spin',true);
   try {
-    const where = encodeURIComponent(`Process_ID='${pid}'`);
+    // BUG 4 FIX: removed quotes around ${pid} so it queries as a number
+    const where = encodeURIComponent(`Process_ID=${pid}`);
     const url   = `${FEATURE_SERVICE}/query?where=${where}&outFields=*&f=json&token=${S.token}`;
     const res   = await fetch(url);
     const data  = await res.json();
@@ -1316,7 +1368,7 @@ async function doSearch() {
     if (data.error) { showAlert('alert-e1','error','❌', data.error.message||'Query failed.'); return; }
     if (!data.features?.length) { showAlert('alert-e1','error','❌',`No record found with Process ID: ${pid}`); return; }
 
-    const attrs = data.features[0].attributes;
+    const attrs   = data.features[0].attributes;
     const recCode = attrs.Verified_Coordinator_Code || '';
     if (recCode && recCode !== S.code) {
       showAlert('alert-e1','error','🚫',
@@ -1327,34 +1379,41 @@ async function doSearch() {
     S.processID = pid;
     S.objectID  = attrs.objectid || attrs.OBJECTID;
     populateEditForm(attrs);
-    goEditPanel('panel-e2',1);
+    goEditPanel('panel-e2', 1);
   } catch(e) {
     showAlert('alert-e1','error','❌','Network error. Please try again.');
   } finally { setLoading('btn-search','search-spin',false); }
 }
 
 function populateEditForm(a) {
-  document.getElementById('e-pid').textContent      = a.Process_ID || S.processID;
-  document.getElementById('e-dist-disp').textContent= a.District   || '—';
-  document.getElementById('e-teh-disp').textContent = a.Tehsil     || '—';
-  document.getElementById('e-date-disp').textContent= a.Request_Date ? new Date(a.Request_Date).toLocaleDateString('en-PK',{year:'numeric',month:'short',day:'numeric'}) : '—';
+  document.getElementById('e-pid').textContent       = a.Process_ID || S.processID;
+  document.getElementById('e-dist-disp').textContent = a.District   || '—';
+  document.getElementById('e-teh-disp').textContent  = a.Tehsil     || '—';
+  document.getElementById('e-date-disp').textContent = a.Request_Date
+    ? new Date(a.Request_Date).toLocaleDateString('en-PK',{year:'numeric',month:'short',day:'numeric'})
+    : '—';
   document.getElementById('e-status-badge').textContent = (a.Current_Status||'—').replace(/_/g,' ').toUpperCase();
 
   ['Owner_Name','Owner_Father_Name','Owner_CNIC','Owner_Contact','Mauza','Khewat_Number','Khasra_Numbers',
    'Surveyor_Name','Resurveyor_Name','Possession_Issue_Detail','Possession_Issue_Khasra',
-   'Remarks_Initial','Remarks_Latest','Coordinator_Name'].forEach(f=>{
-    const el=document.getElementById(`e-${f}`); if(el){el.value=a[f]||'';if(a[f])el.classList.add('filled');}
+   'Remarks_Initial','Remarks_Latest','Coordinator_Name'].forEach(f => {
+    const el = document.getElementById(`e-${f}`);
+    if(el){ el.value = a[f]||''; if(a[f]) el.classList.add('filled'); }
   });
-  ['Total_Parcels','Kanal','Marla','SF','Total_Status_Updates'].forEach(f=>{
-    const el=document.getElementById(`e-${f}`); if(el) el.value=a[f]!=null?a[f]:'';
+  ['Total_Parcels','Kanal','Marla','SF','Total_Status_Updates'].forEach(f => {
+    const el = document.getElementById(`e-${f}`); if(el) el.value = a[f]!=null ? a[f] : '';
   });
-  ['Survey_Assigned_Date','Resurvey_Date','Status_Update_Date','Possession_Resolution_Date'].forEach(f=>{
-    const el=document.getElementById(`e-${f}`);
-    if(el&&a[f]) el.value=new Date(a[f]).toISOString().split('T')[0];
+  ['Survey_Assigned_Date','Resurvey_Date','Status_Update_Date','Possession_Resolution_Date'].forEach(f => {
+    const el = document.getElementById(`e-${f}`);
+    if(el && a[f]) el.value = new Date(a[f]).toISOString().split('T')[0];
   });
-  ['Owner_Relation','Land_Type','Resurvey_Required','Initial_Status','Current_Status','Possession_Issue','Possession_Resolved'].forEach(f=>{
-    const el=document.getElementById(`e-${f}`); if(el) el.value=a[f]||'';
+  ['Owner_Relation','Land_Type','Resurvey_Required','Possession_Issue','Possession_Resolved'].forEach(f => {
+    const el = document.getElementById(`e-${f}`); if(el) el.value = a[f]||'';
   });
+  // BUG 1 FIX: populate status selects with correct selected value from record
+  populateStatusSelect('e-Initial_Status', a.Initial_Status||'');
+  populateStatusSelect('e-Current_Status', a.Current_Status||'');
+
   toggleEReSurvey(); toggleEPossession(); toggleEResolution();
 }
 
@@ -1367,10 +1426,10 @@ async function doUpdate() {
     'e-Mauza','e-Land_Type','e-Khewat_Number','e-Khasra_Numbers','e-Total_Parcels','e-Kanal','e-Marla',
     'e-Surveyor_Name','e-Survey_Assigned_Date','e-Initial_Status','e-Current_Status',
     'e-Status_Update_Date','e-Total_Status_Updates','e-Coordinator_Name'];
-  let missing=[];
-  required.forEach(id=>{
-    const el=document.getElementById(id); if(!el)return;
-    if(!el.value?.trim()){el.classList.add('err');missing.push(id);}
+  let missing = [];
+  required.forEach(id => {
+    const el = document.getElementById(id); if(!el) return;
+    if(!el.value?.trim()){ el.classList.add('err'); missing.push(id); }
     else el.classList.remove('err');
   });
   if(missing.length){
@@ -1380,9 +1439,9 @@ async function doUpdate() {
   }
 
   setLoading('btn-update','update-spin',true);
-  const toTS  = id=>{ const v=document.getElementById(id)?.value; return v?new Date(v).getTime():null; };
-  const toNum = id=>{ const v=document.getElementById(id)?.value; return v!==''&&v!=null?parseFloat(v):null; };
-  const toStr = id=>document.getElementById(id)?.value?.trim()||null;
+  const toTS  = id => { const v=document.getElementById(id)?.value; return v ? new Date(v).getTime() : null; };
+  const toNum = id => { const v=document.getElementById(id)?.value; return v!==''&&v!=null ? parseFloat(v) : null; };
+  const toStr = id => document.getElementById(id)?.value?.trim() || null;
 
   const attributes = {
     OBJECTID:                  S.objectID,
@@ -1421,7 +1480,7 @@ async function doUpdate() {
     District:                  S.district,
     Submission_Source:         'Unified Web Portal — Edit',
   };
-  Object.keys(attributes).forEach(k=>{ if(attributes[k]===null) delete attributes[k]; });
+  Object.keys(attributes).forEach(k => { if(attributes[k]===null) delete attributes[k]; });
 
   try {
     const body = new URLSearchParams({features:JSON.stringify([{attributes}]),f:'json',token:S.token});
@@ -1433,7 +1492,7 @@ async function doUpdate() {
         `Record <strong>${S.processID}</strong> has been successfully updated in the GPC PLRA database.<br><br>
          Tehsil: <strong>${S.tehsil}</strong> &nbsp;|&nbsp; Code: <strong>${S.code}</strong><br>
          Updated at: ${new Date().toLocaleTimeString()}`;
-      goEditPanel('panel-e-success',2);
+      goEditPanel('panel-e-success', 2);
     } else {
       const msg = data.updateResults?.[0]?.error?.description || data.error?.message || 'Update failed.';
       showAlert('alert-e2','error','❌','Update failed: '+msg);
@@ -1444,40 +1503,41 @@ async function doUpdate() {
 }
 
 function editAnother() {
-  document.getElementById('e-process-id').value='';
+  document.getElementById('e-process-id').value = '';
   hideAlert('alert-e1');
-  S.processID=null; S.objectID=null;
-  goEditPanel('panel-e1',0);
+  S.processID = null; S.objectID = null;
+  goEditPanel('panel-e1', 0);
 }
 
 // ══════════════════════════════════════════════════
 // TOGGLE HELPERS
+// BUG 2 FIX: toggleEReSurvey uses 'block' not 'grid'
 // ══════════════════════════════════════════════════
-function toggleNReSurvey()  { document.getElementById('n-resurvey-wrap').style.display  = document.getElementById('n-Resurvey_Required').value==='yes'?'block':'none'; }
-function toggleNPossession(){ document.getElementById('n-possession-wrap').style.display= document.getElementById('n-Possession_Issue').value==='yes'?'block':'none'; }
-function toggleNResolution(){ document.getElementById('n-resolution-wrap').style.display= document.getElementById('n-Possession_Resolved').value==='yes'?'block':'none'; }
-function toggleEReSurvey()  { document.getElementById('e-resurvey-wrap').style.display  = document.getElementById('e-Resurvey_Required').value==='yes'?'grid':'none'; }
-function toggleEPossession(){ document.getElementById('e-possession-wrap').style.display= document.getElementById('e-Possession_Issue').value==='yes'?'block':'none'; }
-function toggleEResolution(){ document.getElementById('e-resolution-wrap').style.display= document.getElementById('e-Possession_Resolved').value==='yes'?'block':'none'; }
+function toggleNReSurvey()   { document.getElementById('n-resurvey-wrap').style.display   = document.getElementById('n-Resurvey_Required').value==='yes' ? 'block' : 'none'; }
+function toggleNPossession() { document.getElementById('n-possession-wrap').style.display = document.getElementById('n-Possession_Issue').value==='yes'  ? 'block' : 'none'; }
+function toggleNResolution() { document.getElementById('n-resolution-wrap').style.display = document.getElementById('n-Possession_Resolved').value==='yes'? 'block' : 'none'; }
+function toggleEReSurvey()   { document.getElementById('e-resurvey-wrap').style.display   = document.getElementById('e-Resurvey_Required').value==='yes' ? 'block' : 'none'; }
+function toggleEPossession() { document.getElementById('e-possession-wrap').style.display = document.getElementById('e-Possession_Issue').value==='yes'  ? 'block' : 'none'; }
+function toggleEResolution() { document.getElementById('e-resolution-wrap').style.display = document.getElementById('e-Possession_Resolved').value==='yes'? 'block' : 'none'; }
 
 // ══════════════════════════════════════════════════
 // UTILITIES
 // ══════════════════════════════════════════════════
-function gv(id) { const el=document.getElementById(id); return el?el.value.trim():''; }
+function gv(id) { const el=document.getElementById(id); return el ? el.value.trim() : ''; }
 
 function showAlert(id, type, icon, msg) {
   const el = document.getElementById(id);
   if(!el) return;
-  el.className=`alert alert-${type} show`;
-  el.innerHTML=`<span class="alert-icon">${icon}</span><span>${msg}</span>`;
+  el.className = `alert alert-${type} show`;
+  el.innerHTML = `<span class="alert-icon">${icon}</span><span>${msg}</span>`;
 }
 function hideAlert(id) { const el=document.getElementById(id); if(el) el.className='alert'; }
 
 function setLoading(btnId, spinId, loading) {
-  const btn=document.getElementById(btnId);
-  const sp=document.getElementById(spinId);
-  if(btn) btn.disabled=loading;
-  if(sp)  sp.style.display=loading?'inline-block':'none';
+  const btn = document.getElementById(btnId);
+  const sp  = document.getElementById(spinId);
+  if(btn) btn.disabled = loading;
+  if(sp)  sp.style.display = loading ? 'inline-block' : 'none';
 }
 </script>
 </body>
